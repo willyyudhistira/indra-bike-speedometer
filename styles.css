@@ -52,13 +52,13 @@ body {
 .top-section {
     justify-content: flex-start;
     align-items: center;
-    gap: 8px; 
+    gap: 16px; 
 }
 
 .speed-container {
     display: flex;
     align-items: baseline;
-    font-size: 6.5rem;
+    font-size: 6rem;
     line-height: 0.72; 
     letter-spacing: 3px;
     
@@ -100,7 +100,7 @@ body {
 }
 
 .unit-container {
-    font-size: 2.2rem;
+    font-size: 2rem;
     letter-spacing: 2px;
 }
 
@@ -112,7 +112,7 @@ body {
 }
 
 .odometer-text {
-    font-size: 1.5rem;
+    font-size: 1rem;
     opacity: 0.8;
     letter-spacing: 1px;
 }
