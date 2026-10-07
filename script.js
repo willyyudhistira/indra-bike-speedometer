@@ -1,7 +1,7 @@
 let elements = {};
 let speedMode = 1; // 0: KMH, 1: MPH, 2: Knots
 
-// --- Audio System ---
+// --- Audio System (Dikembalikan) ---
 let audioOn = new Audio('on.mp3');
 let audioOff = new Audio('off.mp3');
 // let audioSeatbelt = new Audio('seatbelt.mp3');
@@ -160,8 +160,18 @@ function setGear(gear) {
  * @param {number} state The headlight state (0: Off, 1: On, 2: High Beam).
  */
 function setHeadlights(state) {
-    // Fungsi dibiarkan kosong sebagai fallback 
-    // agar script client.lua/JS NUI bawaan tidak error ketika mencoba mengirim data lampu.
+    if (!elements.headlights) return;
+    
+    // Hapus semua indikator aktif terlebih dahulu
+    elements.headlights.classList.remove('active', 'active-blue');
+    
+    if (state === 1) {
+        // State 1: Lampu menyala (Hijau)
+        elements.headlights.classList.add('active');
+    } else if (state === 2) {
+        // State 2: Lampu Jauh / High Beam (Biru)
+        elements.headlights.classList.add('active-blue');
+    }
 }
 
 /**
@@ -194,11 +204,11 @@ function setSeatbelts(state) {
     if (state !== isSeatbeltOn) {
         isSeatbeltOn = state;
         if (state) {
-            // Seatbelt terpasang -> Ikon menyala
+            // Seatbelt terpasang -> Ikon menyala, matikan suara alarm
             if (elements.statusSbt) elements.statusSbt.classList.add('active'); 
             stopAudio(audioSeatbelt);
         } else {
-            // Seatbelt dilepas -> Ikon mati, putar alarm (jika mesin nyala)
+            // Seatbelt dilepas -> Ikon mati, nyalakan alarm jika mesin hidup
             if (elements.statusSbt) elements.statusSbt.classList.remove('active');
             if (isEngineOn) {
                 playAudio(audioSeatbelt);
@@ -240,6 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
         unit: document.getElementById('unit'),
         statusEng: document.getElementById('status-eng'),
         statusSbt: document.getElementById('status-sbt'),
+        headlights: document.getElementById('status-headlights'), 
         gear: document.getElementById('gear'),
         indLeft: document.getElementById('ind-left'),
         indRight: document.getElementById('ind-right'),
